@@ -1,65 +1,98 @@
+"use client";
+
+import { products } from "./data/products";
+import { categories } from "./data/categories";
+import ProductCard from "./components/ProductCard";
+import CallToAction from "./components/CallToAction";
 import Image from "next/image";
+import Link from "next/link";
+import CategoryCard from "./components/CategoryCard";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="pb-20">
+      {/* Hero Section */}
+      <section className="relative h-[80vh] bg-gray-900 text-white overflow-hidden mb-16">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+            alt="Hero Background"
+            width={100}
+            height={100}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="relative h-full w-full flex flex-col justify-center items-center text-center p-4 mx-auto bg-black/30 backdrop-blur-sm">
+          <span className="uppercase tracking-[0.3em] text-sm md:text-base mb-4 font-light">
+            The New Standard
+          </span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-8 leading-tight">
+            Elevated Essentials
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+          <Link href={'/shop'} className="bg-white text-black px-10 py-4 font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors">
+            Shop Collection
+          </Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      {/* Product Grid */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <p className="uppercase tracking-[0.3em] text-xs md:text-sm mb-4 font-light text-center">
+          Nthoe&apos;Straight Summer 2026
+        </p>
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-16 text-primary">
+          Our Latest Collection
+        </h2>
+
+        {products.length === 0 ? (
+          <div className="text-center py-20">
+            <h3 className="text-2xl font-serif mb-2">No products found</h3>
+            <p className="text-gray-500">
+              No available products found at the moment, please try again later.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-12">
+            {products.slice(0, 4).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* CTA Section */}
+      <CallToAction />
+
+      {/* Categories Section */}
+      <div id="collection" className="container mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <p className="uppercase tracking-[0.3em] text-xs md:text-sm mb-4 font-light text-center">
+          Explore our categories
+        </p>
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-center mb-16 text-primary">
+          Shop by Categories
+        </h2>
+
+        {categories.length === 0 ? (
+          <div className="text-center py-20">
+            <h3 className="text-2xl font-serif mb-2">No categories found</h3>
+            <p className="text-gray-500">
+              No available categories found at the moment, please try again
+              later.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-12">
+            {categories.map((category) => (
+              <CategoryCard
+                key={category.id}
+                categoryName={category.name}
+                categoryImage={category.image}
+                categoryPath={category.path}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
