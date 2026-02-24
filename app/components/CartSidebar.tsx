@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import supabase from "@/app/api/client";
-import Paystack from "@paystack/inline-js";
+import type PaystackType from "@paystack/inline-js";
 
 export default function CartSidebar() {
   const router = useRouter()
@@ -82,6 +82,9 @@ export default function CartSidebar() {
       setIsProcessing(false);
       return;
     }
+
+    // Dynamically import Paystack on client side only
+    const Paystack = (await import("@paystack/inline-js")).default;
 
     // Extract first and last name from full name
     const nameParts = shippingDetails.fullName.trim().split(" ");
