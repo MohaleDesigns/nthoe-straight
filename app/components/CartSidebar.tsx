@@ -144,7 +144,7 @@ export default function CartSidebar() {
 
           if (response.ok) {
             const data = await response.json();
-            console.log('Order saved successfully:', data);
+            // console.log('Order saved successfully:', data);
             
             // Reset checkout flow
             clearCart();
@@ -180,7 +180,7 @@ export default function CartSidebar() {
         }
       },
       onCancel: () => {
-        console.log("Payment cancelled by user");
+        // console.log("Payment cancelled by user");
         setIsProcessing(false);
       },
       onError: (err: { message?: string }) => {
