@@ -50,8 +50,7 @@ export async function POST(request: NextRequest) {
     if (userId) {
       // Check if user is authenticated
       const { data: { user }, error: authError } = await supabase.auth.getUser();
-      console.log('POST:user ', user)
-      
+
       if (authError || !user || user.id !== userId) {
         return NextResponse.json(
           { error: 'Unauthorized' },
@@ -70,7 +69,7 @@ export async function POST(request: NextRequest) {
 
       if (existingCustomer) {
         customerId = existingCustomer.id;
-        
+
         // Update customer details
         await supabase
           .from('customers')
@@ -204,14 +203,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(_: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
-    console.log('GET:Start ')
 
     // Get the authenticated user
     const { data: { user }, error: authError } = await supabase.auth.getUser();
-    console.log('GET:user ', user)
 
     if (authError || !user) {
       return NextResponse.json(
@@ -229,8 +226,7 @@ export async function GET(_: NextRequest) {
 
     if (customerError || !customer) {
       return NextResponse.json(
-        { error: 'Customer not found' },
-        { status: 404 }
+        { orders: [] }
       );
     }
 

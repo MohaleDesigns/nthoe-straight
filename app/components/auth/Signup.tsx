@@ -31,7 +31,7 @@ export default function Signup({
       });
 
       if (error) {
-        console.log("Failed to create a user", error);
+        // console.log("Failed to create a user", error);
         setError(error.message);
       } else {
         setSuccessMessage("Account created successfully! Please sign in to continue.");
@@ -41,7 +41,7 @@ export default function Signup({
         }, 2000);
       }
     } catch (error) {
-      console.log("Failed to create a user", error);
+      // console.log("Failed to create a user", error);
       setError("Failed to create a user, please try again");
     } finally {
       setIsLoading(false);

@@ -40,7 +40,7 @@ export default function RootLayout({
           <CartProvider>
             <HeaderWrapper />
             <CartSidebar />
-            <main className="pt-20">
+            <main>
               {children}
             </main>
             <FooterWrapper />

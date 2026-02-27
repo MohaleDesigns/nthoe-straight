@@ -52,28 +52,25 @@ export default function OrdersPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuthAndFetchOrders = async () => {
+    const fetchOrders = async () => {
       try {
-        // Check if user is authenticated
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        // Get the session to pass the access token in the Authorization header
+        const { data: sessionData } = await supabase.auth.getSession();
+        const accessToken = sessionData?.session?.access_token;
 
-        if (authError || !user) {
-          // console.log("User not authenticated, redirecting to login");
-          router.push("/login");
-          return;
-        }
+        // Fetch orders with Authorization header
+        const response = await fetch('/api/orders', {
+          headers: accessToken ? {
+            'Authorization': `Bearer ${accessToken}`
+          } : {}
+        });
 
-        // console.log("User authenticated:", user.id);
-
-        // Fetch orders
-        const response = await fetch('/api/orders');
-        
         if (response.ok) {
           const data = await response.json();
           setOrders(data.orders || []);
         } else if (response.status === 401) {
           console.error("401 Unauthorized when fetching orders");
-          router.push("/login");
+          setError("Session expired. Please log in again.");
         } else {
           const errorData = await response.json();
           console.error("Failed to load orders:", errorData);
@@ -87,8 +84,8 @@ export default function OrdersPage() {
       }
     };
 
-    checkAuthAndFetchOrders();
-  }, [router]);
+    fetchOrders();
+  }, []);
 
   if (isLoading) {
     return (

@@ -117,15 +117,18 @@ export default function CartSidebar() {
       },
       onSuccess: async (transaction: { reference?: string }) => {
         try {
-          // Get current user
+          // Get current user and session
           const { data: { user } } = await supabase.auth.getUser();
+          const { data: sessionData } = await supabase.auth.getSession();
           const userId = user?.id || null;
+          const accessToken = sessionData?.session?.access_token;
 
           // Save order to database
           const response = await fetch('/api/orders', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              ...(accessToken && { 'Authorization': `Bearer ${accessToken}` }),
             },
             body: JSON.stringify({
               shippingDetails,
@@ -141,7 +144,7 @@ export default function CartSidebar() {
 
           if (response.ok) {
             const data = await response.json();
-            console.log('Order saved successfully:', data);
+            // console.log('Order saved successfully:', data);
             
             // Reset checkout flow
             clearCart();
@@ -177,7 +180,7 @@ export default function CartSidebar() {
         }
       },
       onCancel: () => {
-        console.log("Payment cancelled by user");
+        // console.log("Payment cancelled by user");
         setIsProcessing(false);
       },
       onError: (err: { message?: string }) => {

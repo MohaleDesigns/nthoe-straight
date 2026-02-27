@@ -6,8 +6,8 @@ import { Eye, EyeOff } from "lucide-react";
 import supabase from "@/app/api/client";
 
 export default function Signin({ setDisplay }: { setDisplay: (display: string) => void }) {
-  const [email, setEmail] = useState("tokolohomohale@gmail.com");
-  const [password, setPassword] = useState("P@ssword1");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +28,7 @@ export default function Signin({ setDisplay }: { setDisplay: (display: string) =
       });
 
       if (error) {
-        console.log("Failed to login a user", error);
+        // console.log("Failed to login a user", error);
         setError(error.message);
       } else {
         setSuccessMessage("Login successful! Redirecting...");
@@ -38,7 +38,7 @@ export default function Signin({ setDisplay }: { setDisplay: (display: string) =
         }, 1000);
       }
     } catch (error) {
-      console.log("Failed to login a user", error);
+      // console.log("Failed to login a user", error);
       setError("Failed to login a user, please try again");
     } finally {
       setIsLoading(false);

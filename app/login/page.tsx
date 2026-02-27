@@ -1,24 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Auth from "../components/auth/Auth";
-import supabase from '@/app/api/client';
 
 export default function LoginPage() {
-  useEffect(() => {
-    // Get the authenticated user
-    async function authCheck() {
-      const { data: user } = await supabase.auth.getUser();
-      console.log('GET:user ', user)
-    }
-
-    authCheck()
-  }, [])
-
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen pt-0 flex">
       {/* Left Side - Logo */}
       <div className="hidden lg:flex lg:w-1/2 bg-gray-50 items-center justify-center p-12">
         <div className="max-w-md">
